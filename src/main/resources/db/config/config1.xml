@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<db>
+    <url>jdbc:postgresql://localhost:5432/phat_store_112</url>
+    <username>postgres</username>
+    <password>ItsMyLife0203</password>
+    <driver>org.postgresql.Driver</driver>
+</db>
