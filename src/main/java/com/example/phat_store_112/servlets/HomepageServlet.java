@@ -26,7 +26,12 @@ public class HomepageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        List<Category> all = categoryService.all();
+        List<Category> all = null;
+        try {
+            all = categoryService.all();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         req.setAttribute("categories", all);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/sources/pages/home.jsp");
         dispatcher.forward(req, resp);

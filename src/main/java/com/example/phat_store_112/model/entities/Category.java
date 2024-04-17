@@ -9,9 +9,9 @@ import java.sql.SQLException;
 public class Category extends BaseEntity {
     private String name;
 
-    public Category(ResultSet resultSet) {
+    public Category(ResultSet resultSet) throws SQLException {
+        super(resultSet.getInt("id"));
         try {
-            super.setId(resultSet.getInt("id"));
             this.name = resultSet.getString("name");
         } catch (SQLException e) {
             throw new RuntimeException(e);

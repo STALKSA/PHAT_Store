@@ -21,11 +21,12 @@ public class IndexServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("application/json; charset=UTF-8");
-        List<Category> all = categoryService.all();
+        List<Category> all = null;
         try {
+            all = categoryService.all();
             PrintWriter out = response.getWriter();
             out.println(getJSON(all));
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }

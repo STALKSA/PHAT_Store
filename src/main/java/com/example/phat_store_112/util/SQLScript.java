@@ -16,7 +16,7 @@ public class SQLScript {
     final static Random r = new Random();
 
     public static void main(String[] args) throws IOException {
-        Files.lines(Path.of(itemsFile)).forEach(line -> addItem(line));
+        Files.lines(Path.of(itemsFile)).forEach(SQLScript::addItem);
         sb.append(";");
         System.out.println(sb);
     }

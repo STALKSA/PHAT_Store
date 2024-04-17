@@ -12,16 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class CategoryServiceImplementation implements CategoryService {
+    private final String configPath = System.getProperty("user.dir") + "/config.xml";
     private Connection connection;
 
-    String DB_URL = "jdbc:postgresql://localhost:5432/phat_store_112";
-    String USERNAME = "postgres";
-    String PASSWORD = "ItsMyLife0203";
-    String DB_DRIVER = "org.postgresql.Driver";
-
     public CategoryServiceImplementation() {
+        System.out.println(configPath);
         try {
-            initConnection();
+            initConnection(configPath);
         } catch (SQLException e) {
             System.out.println("подключение невозможно");
             throw new RuntimeException(e);
@@ -34,19 +31,15 @@ public class CategoryServiceImplementation implements CategoryService {
         }
     }
 
-    private void initConnection() throws FileNotFoundException, ClassNotFoundException, SQLException {
-        Class.forName(DB_DRIVER);
-        this.connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+    private void initConnection(String configFile) throws ClassNotFoundException, SQLException, FileNotFoundException {
+        File configurationFile = new File(configFile);
+        XML config = new XMLDocument(configurationFile);
+        Class.forName(config.xpath("//db/driver/text()").get(0));
+        this.connection = DriverManager.getConnection(
+                config.xpath("//db/url/text()").get(0),
+                config.xpath("//db/username/text()").get(0),
+                config.xpath("//db/password/text()").get(0));
     }
-
-//    private void initConnection(String configFile) throws FileNotFoundException, ClassNotFoundException, SQLException {
-//        XML config = new XMLDocument(new File(configFile));
-//        Class.forName(config.xpath("//db/driver/text()").get(0));
-//        this.connection = DriverManager.getConnection(
-//                config.xpath("//db/url/text()").get(0),
-//                config.xpath("//db/username/text()").get(0),
-//                config.xpath("//db/password/text()").get(0));
-//    }
 
 
     @Override
@@ -69,6 +62,21 @@ public class CategoryServiceImplementation implements CategoryService {
     @Override
     public Optional<Category> findById(int id) {
         return Optional.empty();
+    }
+
+    @Override
+    public Category save(Category category) {
+        return null;
+    }
+
+    @Override
+    public boolean update(Category category) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        return false;
     }
 
     @Override

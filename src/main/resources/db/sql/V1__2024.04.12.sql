@@ -1,17 +1,17 @@
-DROP TABLE IF EXISTS categories_t;
-DROP TABLE IF EXISTS brands_t;
 DROP TABLE IF EXISTS items_t;
+DROP TABLE IF EXISTS brands_t;
+DROP TABLE IF EXISTS categories_t;
 
 CREATE TABLE categories_t
 (
     id SERIAL PRIMARY KEY,
-    name varchar(20) NOT NULL
+    name varchar(20) NOT NULL UNIQUE
 );
 
 CREATE TABLE brands_t
 (
     id SERIAL PRIMARY KEY,
-    name varchar(20) NOT NULL
+    name varchar(20) NOT NULL UNIQUE
 );
 
 CREATE TABLE items_t

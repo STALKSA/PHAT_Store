@@ -15,6 +15,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
         <javax.servlet.version>4.0.1</javax.servlet.version>
+        <postgresql.version>42.7.1</postgresql.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
         <jcabi-xml.version>0.29.0</jcabi-xml.version>
     </properties>
@@ -38,7 +39,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.1</version>
+            <version>${postgresql.version}</version>
         </dependency>
 
 <!--JSON-builder        -->

@@ -39,10 +39,10 @@ public class BrandServiceImplementation implements BrandService{
 
 
     @Override
-    public List<Brand> all() {
-        String query = "SELECT * FROM brands_t";
+    public List<Brand> all() throws SQLException {
+        String query = "SELECT * FROM brands_t;";
         List<Brand> all = new ArrayList<>();
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
@@ -52,12 +52,91 @@ public class BrandServiceImplementation implements BrandService{
             return all;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            assert resultSet != null;
+            resultSet.close();
         }
     }
 
     @Override
-    public Optional<Brand> findById(int id) {
-        return Optional.empty();
+    public Optional<Brand> findById(int id) throws SQLException {
+        String query = String.format("SELECT * FROM brands_t WHERE (id = %d);", id);
+        ResultSet resultSet = null;
+        try {
+            Statement statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            if (resultSet.next()) {
+                return Optional.of(new Brand(resultSet));
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            assert resultSet != null;
+            resultSet.close();
+        }
+    }
+
+    @Override
+    public Brand save(Brand brand) {
+        String query = String.format("INSERT INTO brands_t (name) VALUES ('%s');", brand.getName());
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+            return findByName(brand.getName());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Brand findByName(String name) throws SQLException {
+        String query = String.format("SELECT * FROM brands_t WHERE (name = '%s')", name);
+        ResultSet resultSet = null;
+        try {
+            Statement statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+            resultSet.next();
+            return new Brand(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            assert resultSet != null;
+            resultSet.close();
+        }
+    }
+
+    @Override
+    public boolean update(Brand brand) {
+        String query = String.format("UPDATE brands_t SET name = '%s' WHERE (id = %d);",
+                brand.getName(), brand.getId());
+        try {
+            Statement statement = connection.createStatement();
+            if (findById(brand.getId()).isPresent()) {
+                statement.executeUpdate(query);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        String query = String.format("DELETE FROM brands_t WHERE (id = %d);", id);
+        try {
+            Statement statement = connection.createStatement();
+            if (findById(id).isPresent()) {
+                statement.executeUpdate(query);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
