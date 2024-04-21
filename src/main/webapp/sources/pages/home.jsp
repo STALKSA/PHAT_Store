@@ -12,7 +12,11 @@
             <div class="nav_icon"><img src="${pageContext.request.contextPath}/sources/img/header/hamburger.png"></div>
             <div class="nav_icon"><img src="${pageContext.request.contextPath}/sources/img/header/search.png"></div>
             <div class="phat_logo"><img src="${pageContext.request.contextPath}/sources/img/logos/header_logo.jpg"></div>
-            <div class="nav_icon"><img src="${pageContext.request.contextPath}/sources/img/header/admin.png"></div>
+            <div class="nav_icon">
+                <a href="${pageContext.request.contextPath}/admin">
+                    <img src="${pageContext.request.contextPath}/sources/img/header/admin.png">
+                </a>
+            </div>
             <div class="nav_icon"><img src="${pageContext.request.contextPath}/sources/img/header/lock.png"></div>
         </header>
 

@@ -8,6 +8,7 @@ public class Item extends BaseEntity {
     private Integer price;
     private Integer amount;
     private String size;
+    private Integer sex;
     private String color;
     private Integer brandId;
     private Integer categoryId;

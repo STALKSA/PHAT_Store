@@ -1,4 +1,4 @@
-package com.example.phat_store_112.servlets;
+package com.example.phat_store_112.servlets.admin;
 
 import com.example.phat_store_112.model.dao.brand.BrandService;
 import com.example.phat_store_112.model.dao.brand.BrandServiceImplementation;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @WebServlet("/admin/brands")
 @MultipartConfig
@@ -30,13 +31,31 @@ public class BrandsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        try {
+            req.setAttribute("brands", brandService.all());
+            req.setAttribute("formMethod", "PUT");
+            Optional<Brand> brand = brandService.findById(Integer.parseInt(req.getParameter("id")));
+            req.setAttribute("brand", brand.orElse(null));
+            req
+                    .getServletContext()
+                    .getRequestDispatcher("/sources/pages/admin/entities/brands.jsp")
+                    .forward(req, resp);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        brandService.save(new Brand(name));
+        String method = req.getParameter("method");
+        if (method.equals("POST")) {
+            brandService.save(new Brand(name));
+        } else if (method.equals("PUT")) {
+            doPut(req, resp);
+        } else {
+            doDelete(req, resp);
+        }
     }
 
     @Override

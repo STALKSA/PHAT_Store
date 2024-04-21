@@ -1,6 +1,7 @@
 package com.example.phat_store_112.util;
 
 import com.example.phat_store_112.model.entities.itemAttributes.Color;
+import com.example.phat_store_112.model.entities.itemAttributes.Sex;
 import com.example.phat_store_112.model.entities.itemAttributes.Size;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.Random;
 public class SQLScript {
     private static final String itemsFile = "items.txt";
     final static StringBuilder sb = new StringBuilder(
-            "INSERT INTO items_t (model, amount, size, color, brand_id, category_id)\nVALUES ");
+            "INSERT INTO items_t (model, amount, size, color, sex, price, brand_id, category_id)\nVALUES ");
     final static Random r = new Random();
 
     public static void main(String[] args) throws IOException {
@@ -27,14 +28,18 @@ public class SQLScript {
         List<String> sizes = getSizes(Integer.parseInt(lineArr[0]));
 
         sb.append("('")
-                .append(lineArr[1])
+                .append(lineArr[2])
                 .append("', ")
                 .append(r.nextInt(0, 20))
                 .append(", '")
                 .append(sizes.get(r.nextInt(0, sizes.size())))
                 .append("', '")
                 .append(Color.values()[r.nextInt(0, Color.values().length)])
+                .append("', '")
+                .append(Sex.UNISEX)
                 .append("', ")
+                .append(lineArr[3])
+                .append(", ")
                 .append(getBrandId(Integer.parseInt(lineArr[0])))
                 .append(", ")
                 .append(getCategoryId(Integer.parseInt(lineArr[0])))
