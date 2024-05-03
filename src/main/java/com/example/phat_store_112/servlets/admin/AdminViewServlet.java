@@ -2,6 +2,7 @@ package com.example.phat_store_112.servlets.admin;
 
 import com.example.phat_store_112.model.dao.brand.BrandService;
 import com.example.phat_store_112.model.dao.brand.BrandServiceImplementation;
+import com.example.phat_store_112.model.dao.item.ItemService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -59,6 +60,15 @@ public class AdminViewServlet extends HttpServlet {
 //        req.setAttribute("items", brandService.all());
     }
 
+//    private void completeItemsRequest(HttpServletRequest req) {
+//        try {
+//            req.setAttribute("items", itemService.all());
+//            req.setAttribute("formMethod", "POST");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     @Override
     public void destroy() {
         try {
@@ -67,4 +77,6 @@ public class AdminViewServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+
+
 }
