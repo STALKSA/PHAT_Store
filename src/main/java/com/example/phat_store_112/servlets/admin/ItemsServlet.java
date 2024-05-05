@@ -18,7 +18,7 @@ public class ItemsServlet extends HttpServlet {
     private ItemService itemService;
 
     public ItemsServlet() {
-        itemService = new ItemServiceImplementation(); //добавить
+        itemService = new ItemServiceImplementation(); 
     }
 
     @Override
